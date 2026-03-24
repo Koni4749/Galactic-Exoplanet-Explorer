@@ -67,6 +67,12 @@ selected_methods = st.sidebar.multiselect(
 
 df = raw_df[(raw_df['Distance (LY)'] <= max_distance) & (raw_df['Discovery Method'].isin(selected_methods))]
 
+# 👇 --- 여기에 안전장치 코드를 추가하세요! --- 👇
+if df.empty:
+    st.warning("⚠️ 레이더에 잡히는 행성이 없습니다. 좌측 제어반에서 탐지 방식을 하나 이상 선택해 주세요.")
+    st.stop() # 이후의 차트/통계 계산 코드를 실행하지 않고 여기서 멈춥니다.
+# 👆 -------------------------------------- 👆
+
 # 4. 상단 핵심 지표
 col1, col2, col3, col4 = st.columns(4)
 col1.metric("가용 외계 행성 데이터", f"{len(df):,} 개")
